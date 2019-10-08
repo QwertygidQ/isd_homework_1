@@ -12,3 +12,8 @@ Running:
 cd ..  (if inside isd_homework_1/)
 python3 -m isd_homework_1
 ```
+
+Usage with curl:
+```
+curl -F 'file=@/path/to/your/file' http://127.0.0.1:8080/convert/*ARCHIVE TYPE* (--output *FILENAME*)
+```

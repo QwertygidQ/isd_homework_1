@@ -1,5 +1,6 @@
 # HSE Industrial Software Development Elective HW 1
 
+## How to use
 Installation:  
 ```
 git clone https://github.com/QwertygidQ/isd_homework_1.git
@@ -17,3 +18,10 @@ Usage with curl:
 ```
 curl -F 'file=@/path/to/your/file' http://127.0.0.1:8080/convert/*ARCHIVE TYPE* (--output *FILENAME*)
 ```
+
+## Available formats
+* tar
+* tar.gz
+* tar.bz2
+* tar.xz
+* zip

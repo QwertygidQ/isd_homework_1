@@ -11,7 +11,7 @@ from ..app.archive import create_archive
 UPLOAD_FOLDER = Config.UPLOAD_FOLDER
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def temp_file():
     TEMP_FILENAME = "temp.txt"
     TEMP_FILEPATH = os.path.join(UPLOAD_FOLDER, TEMP_FILENAME)
@@ -26,7 +26,7 @@ def temp_file():
     return TEMP_FILENAME
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture(scope="session", autouse=True)
 def teardown():
     yield  # Don't do anything before the tests
 

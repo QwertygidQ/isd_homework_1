@@ -6,6 +6,9 @@ from . import app
 
 
 def create_archive(filename: str, archive_type: str) -> str:
+    if not os.path.exists(app.config["UPLOAD_FOLDER"]):
+        os.makedirs(app.config["UPLOAD_FOLDER"])
+
     filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
     if not os.path.isfile(filepath):
         raise RuntimeError("File is missing")
@@ -27,8 +30,7 @@ def create_archive(filename: str, archive_type: str) -> str:
             raise RuntimeError("Unsupported tar archive type")
 
         try:
-            with tarfile.open(archive_path, tarfile_options[archive_type])\
-                 as archive:
+            with tarfile.open(archive_path, tarfile_options[archive_type]) as archive:
                 archive.add(filepath, arcname=filename)
         except Exception:
             raise RuntimeError("Failed to create an archive")
@@ -36,8 +38,7 @@ def create_archive(filename: str, archive_type: str) -> str:
         return archive_name
     elif archive_type == "zip":
         try:
-            with zipfile.ZipFile(archive_path, "w", zipfile.ZIP_DEFLATED)\
-                 as archive:
+            with zipfile.ZipFile(archive_path, "w", zipfile.ZIP_DEFLATED) as archive:
                 archive.write(filepath, arcname=filename)
         except Exception:
             raise RuntimeError("Failed to create an archive")

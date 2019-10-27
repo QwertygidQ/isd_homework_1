@@ -3,7 +3,7 @@ import os
 
 host = "0.0.0.0"
 port = 8080
-debug = True
+debug = False
 
 base_folder = os.path.abspath(os.path.dirname(__file__))
 

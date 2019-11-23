@@ -1,8 +1,13 @@
 import os
-from flask import request, send_from_directory
+from flask import request, send_from_directory, send_file
 from werkzeug.utils import secure_filename
 from . import app
 from .archive import create_archive
+
+
+@app.route('/')
+def root():
+    return send_file('../html/index.html'), 200
 
 
 @app.route("/convert/<filetype>", methods=["POST"])

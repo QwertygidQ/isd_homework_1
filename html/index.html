@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Archive compressor</title>
+</head>
+<body>
+<h1>Archive compressor</h1>
+<form>
+    <input id="archive_input" type="file">
+    <div>
+        <label>Format to compress: </label>
+        <select id="format_selector">
+            <option>tar</option>
+            <option>tar.gz</option>
+            <option>tar.bz2</option>
+            <option>tar.xz</option>
+            <option>zip</option>
+        </select>
+    </div>
+</form>
+<button onclick="sendArchive()">Compress</button>
+<a id="download_file_link" style="display: none"></a>
+<script>
+
+    function sendArchive() {
+        let fileInput = document.getElementById("archive_input");
+        if (fileInput.value === "") {
+            window.alert("File not selected");
+            return;
+        }
+        let archive = fileInput.files[0];
+        let selector = document.getElementById("format_selector");
+        let format = selector.options[selector.selectedIndex].text;
+
+        let formData = new FormData();
+        formData.append("file", archive);
+        let req = new XMLHttpRequest();
+        req.open("POST", '/convert/' + format);
+        req.responseType = "blob";
+
+
+        req.onload = function (event) {
+            if (req.status !== 200) {
+                window.alert(req.responseText);
+                return;
+            }
+            let blob = req.response;
+            let fileName = fileInput.value
+                .split(/([\\/])/g).pop() // get file name
+                .replace(/\.[^/.]+$/, "") + "." + format; // replace the extension
+
+            let link = document.getElementById("download_file_link");
+            link.href = window.URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+        };
+
+        req.send(formData);
+    }
+
+</script>
+</body>
+</html>
